@@ -20,6 +20,17 @@ module Enumerable
 
   # select
 
+  def my_select
+    return enum_for(:my_each) unless block_given?
+
+    array = *self
+    new_array = []
+    array.my_each do |item|
+      new_array.push(item) if yield(item)
+    end
+    new_array
+  end
+
   def my_all?(*pat)
     array = *self
 
