@@ -6,7 +6,22 @@
 
 ![Top Page Screenshot](./screenshot.jpg)
 
-This project is based on an online shop for electronics.
+This project is based on the Odin Project of Enumerable methods.
+We created our own methods on to the existing Enumerable module without using original methods and with yield statement or #call method as below:
+
+- #my_each
+- #my_each_with_index
+- #my_select
+- #my_all?
+- #my_any?
+- #my_none?
+- #my_count
+- #my_map
+- #my_inject
+- #multiply_els
+
+#multiply_els is created for testing #my_inject, which multiplies all the elements of the array together by using #my_inject.
+
 A list of commonly used resources that I find helpful is listed in the acknowledgments.
 
 ## Table of Contents
@@ -86,5 +101,6 @@ This project is [MIT](./LICENCE) licensed.
 
 
 ## Acknowledgements
-- [Ruby-doc](https://ruby-doc.org/core-2.6.5/Enumerable.html)
+- [Ruby-doc: Enumerable](https://ruby-doc.org/core-2.6.5/Enumerable.html)
+- [Ruby-doc: Array](https://ruby-doc.org/core-2.7.2/Array.html)
 - [The Odin Project: Enumerable Methods](https://github.com/TheOdinProject/curriculum/blob/master/archive/old_lessons/ruby/basic_ruby/project_advanced_building_blocks.md#project-2-enumerable-methods)
