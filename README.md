@@ -86,5 +86,5 @@ This project is [MIT](./LICENCE) licensed.
 
 
 ## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Img Shields](https://shields.io)
+- [Ruby-doc](https://ruby-doc.org/core-2.6.5/Enumerable.html)
+- [The Odin Project: Enumerable Methods](https://github.com/TheOdinProject/curriculum/blob/master/archive/old_lessons/ruby/basic_ruby/project_advanced_building_blocks.md#project-2-enumerable-methods)
