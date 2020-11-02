@@ -50,4 +50,22 @@ module Enumerable
   end
 
   # my_any?
+  def my_any?(*patt)
+    array = *self
+    if patt.size.positive?
+      case patt[0]
+      when Regexp
+        array.my_each { |item| return true if patt[0].match?(item.to_s) }
+      when Class
+        array.my_each { |item| return true if item.is_a?(patt[0]) }
+      else
+        array.my_each { |item| return true if item == patt[0] }
+      end
+    elsif block_given?
+      array.my_each { |item| return true if yield(item) }
+    else
+      array.my_each { |item| return true if item }
+    end
+    false
+  end
 end
