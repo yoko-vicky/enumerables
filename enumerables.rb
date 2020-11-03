@@ -12,7 +12,8 @@ module Enumerable
     return enum_for(:my_each) unless block_given?
 
     array = *self
-    array.size.times { |index| yield(index) }
+    array.size.times { |index| yield(array[index], index) }
+    self
   end
 
   def my_select
@@ -75,12 +76,16 @@ module Enumerable
     array.size
   end
 
-  def my_map
-    return enum_for(:my_map) unless block_given?
+  def my_map(*args, &block)
+    return enum_for(:my_each) unless block_given?
 
-    arr = *self
     new_array = []
-    arr.my_each { |item| new_array << yield(item) }
+    if args.size.positive?
+      my_proc = args[0]
+    elsif args.empty? && block
+      my_proc = block
+    end
+    my_each { |item| new_array << my_proc.call(item) }
     new_array
   end
 
