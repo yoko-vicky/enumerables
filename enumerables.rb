@@ -63,6 +63,23 @@ module Enumerable
   end
 
   # my_count
+  def my_count(*value)
+    array = *self
+
+    count = 0
+    # return array.size unless block_given? || value.size.positive?
+
+    if block_given?
+      array.my_each { |item| count += 1 if yield(item) }
+      return count
+    elsif value.size.positive?
+      array.my_each { |item| count += 1 if item == value[0] }
+      return count
+    end
+
+    array.size
+  end
+
   # my_map
   def my_inject(*arg)
     arr = *self
