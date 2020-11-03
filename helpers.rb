@@ -34,5 +34,4 @@ module Helper
     end
     true
   end
-
 end

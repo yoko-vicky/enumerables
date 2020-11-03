@@ -1,5 +1,4 @@
 require_relative 'helpers'
-# call rubocop:disable Style/CaseEquality
 module Enumerable
   def my_each
     return enum_for(:my_each) unless block_given?
@@ -34,7 +33,6 @@ module Enumerable
     else
       array.my_each { |item| return false unless item }
     end
-
     true
   end
 
@@ -62,12 +60,9 @@ module Enumerable
     true
   end
 
-  # my_count
   def my_count(*value)
     array = *self
-
     count = 0
-    # return array.size unless block_given? || value.size.positive?
 
     if block_given?
       array.my_each { |item| count += 1 if yield(item) }
@@ -80,7 +75,15 @@ module Enumerable
     array.size
   end
 
-  # my_map
+  def my_map
+    return enum_for(:my_each) unless block_given?
+
+    arr = *self
+    new_array = []
+    arr.my_each { |item| new_array << yield(item) }
+    new_array
+  end
+
   def my_inject(*arg)
     arr = *self
     raise LocalJumpError, 'no block given' unless block_given? || arg.size.positive?
