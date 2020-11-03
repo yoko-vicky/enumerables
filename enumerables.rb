@@ -27,7 +27,7 @@ module Enumerable
 
   def my_all?(*patt)
     array = *self
-    return Helper.given_patt_for_all(array, patt[0]) if patt.size.positive?
+    return Helper.given_patt_for_all(array, patt[0]) unless patt.empty?
 
     if block_given?
       array.my_each { |item| return false unless yield(item) }
@@ -40,8 +40,7 @@ module Enumerable
 
   def my_any?(*patt)
     array = *self
-    # should use helper
-    return Helper.given_patt_for_any(array, patt[0]) if patt.size.positive?
+    return Helper.given_patt_for_any(array, patt[0]) unless patt.empty?
 
     if block_given?
       array.my_each { |item| return true if yield(item) }
@@ -50,8 +49,6 @@ module Enumerable
     end
     false
   end
-
-  # my_none?
 
   def my_none?(*patt)
     array = *self
@@ -64,9 +61,29 @@ module Enumerable
     end
     true
   end
+
   # my_count
   # my_map
-  # my_inject
-  # multiply_els => multiplies all the elements of the array together by using #my_inject,
-  # e.g. multiply_els([2,4,5])=> 40
+  def my_inject(*arg)
+    arr = *self
+    raise LocalJumpError, 'no block given' unless block_given? || arg.size.positive?
+
+    if block_given?
+      result = arg[0] if arg.size.positive?
+      arr.size.times { |index| result = result ? yield(result, arr[index]) : arr[index] }
+    else
+      if arg.size == 2
+        result = arg[0]
+        symbol = arg[1]
+      elsif arg.size == 1
+        symbol = arg[0]
+      end
+      arr.size.times { |index| result = result ? result.send(symbol, arr[index]) : arr[index] }
+    end
+    result
+  end
+end
+
+def multiply_els(array)
+  array.my_inject { |result, item| result * item }
 end
