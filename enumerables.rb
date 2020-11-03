@@ -52,6 +52,18 @@ module Enumerable
   end
 
   # my_none?
+
+  def my_none?(*patt)
+    array = *self
+    return Helper.given_patt_for_none(array, patt[0]) unless patt.empty?
+
+    if block_given?
+      array.my_each { |item| return false if yield(item) }
+    else
+      array.my_each { |item| return false if item }
+    end
+    true
+  end
   # my_count
   # my_map
   # my_inject

@@ -23,4 +23,16 @@ module Helper
     false
   end
 
+  def self.given_patt_for_none(array, patt)
+    case patt
+    when Regexp
+      array.my_each { |item| return false if patt.match?(item.to_s) }
+    when Class
+      array.my_each { |item| return false if item.is_a?(patt) }
+    else
+      array.my_each { |item| return false if item == patt }
+    end
+    true
+  end
+
 end
