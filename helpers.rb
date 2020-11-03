@@ -34,4 +34,15 @@ module Helper
     end
     true
   end
+
+  def self.not_block_given_for_inject(arr, arg)
+    if arg.size == 2
+      result = arg[0]
+      symbol = arg[1]
+    elsif arg.size == 1
+      symbol = arg[0]
+    end
+    arr.size.times { |index| result = result ? result.send(symbol, arr[index]) : arr[index] }
+    result
+  end
 end
