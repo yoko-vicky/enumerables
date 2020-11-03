@@ -10,4 +10,17 @@ module Helper
     end
     true
   end
+
+  def self.given_patt_for_any(array, patt)
+    case patt
+    when Regexp
+      array.my_each { |item| return true if patt.match?(item.to_s) }
+    when Class
+      array.my_each { |item| return true if item.is_a?(patt) }
+    else
+      array.my_each { |item| return true if item == patt }
+    end
+    false
+  end
+
 end

@@ -41,16 +41,9 @@ module Enumerable
   def my_any?(*patt)
     array = *self
     # should use helper
-    if patt.size.positive?
-      case patt[0]
-      when Regexp
-        array.my_each { |item| return true if patt[0].match?(item.to_s) }
-      when Class
-        array.my_each { |item| return true if item.is_a?(patt[0]) }
-      else
-        array.my_each { |item| return true if item == patt[0] }
-      end
-    elsif block_given?
+    return Helper.given_patt_for_any(array, patt[0]) if patt.size.positive?
+
+    if block_given?
       array.my_each { |item| return true if yield(item) }
     else
       array.my_each { |item| return true if item }
