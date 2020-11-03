@@ -8,7 +8,7 @@ module Enumerable
     self
   end
 
-  def my_each_index
+  def my_each_with_index
     return enum_for(:my_each) unless block_given?
 
     array = *self
@@ -76,7 +76,7 @@ module Enumerable
   end
 
   def my_map
-    return enum_for(:my_each) unless block_given?
+    return enum_for(:my_map) unless block_given?
 
     arr = *self
     new_array = []
