@@ -88,18 +88,10 @@ module Enumerable
     arr = *self
     raise LocalJumpError, 'no block given' unless block_given? || arg.size.positive?
 
-    if block_given?
-      result = arg[0] if arg.size.positive?
-      arr.size.times { |index| result = result ? yield(result, arr[index]) : arr[index] }
-    else
-      if arg.size == 2
-        result = arg[0]
-        symbol = arg[1]
-      elsif arg.size == 1
-        symbol = arg[0]
-      end
-      arr.size.times { |index| result = result ? result.send(symbol, arr[index]) : arr[index] }
-    end
+    return Helper.not_block_given_for_inject(arr, arg) unless block_given?
+
+    result = arg[0] if arg.size.positive?
+    arr.size.times { |index| result = result ? yield(result, arr[index]) : arr[index] }
     result
   end
 end
