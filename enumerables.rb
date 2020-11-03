@@ -1,11 +1,11 @@
+require_relative 'helpers'
+# call rubocop:disable Style/CaseEquality
 module Enumerable
   def my_each
     return enum_for(:my_each) unless block_given?
 
     array = *self
-    array.size.times do |index|
-      yield(array[index])
-    end
+    array.size.times { |index| yield(array[index]) }
     self
   end
 
@@ -13,45 +13,34 @@ module Enumerable
     return enum_for(:my_each) unless block_given?
 
     array = *self
-    array.size.times do |index|
-      yield(index)
-    end
+    array.size.times { |index| yield(index) }
   end
-
-  # select
 
   def my_select
     return enum_for(:my_each) unless block_given?
 
     array = *self
     new_array = []
-    array.my_each do |item|
-      new_array.push(item) if yield(item)
-    end
+    array.my_each { |item| new_array.push(item) if yield(item) }
     new_array
   end
 
-  def my_all?(*pat)
+  def my_all?(*patt)
     array = *self
+    return Helper.given_patt_for_all(array, patt[0]) if patt.size.positive?
 
-    if pat.size.positive?
-      case pat
-      when Regexp
-        array.my_each { |item| return false unless pat.match?(item.to_s) }
-      when Class
-        array.my_each { |item| return false unless item.class == pat }
-      end
-    elsif block_given?
+    if block_given?
       array.my_each { |item| return false unless yield(item) }
     else
       array.my_each { |item| return false unless item }
     end
+
     true
   end
 
-  # my_any?
   def my_any?(*patt)
     array = *self
+    # should use helper
     if patt.size.positive?
       case patt[0]
       when Regexp
@@ -68,4 +57,11 @@ module Enumerable
     end
     false
   end
+
+  # my_none?
+  # my_count
+  # my_map
+  # my_inject
+  # multiply_els => multiplies all the elements of the array together by using #my_inject,
+  # e.g. multiply_els([2,4,5])=> 40
 end
