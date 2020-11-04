@@ -76,13 +76,12 @@ module Enumerable
     array.size
   end
 
-  def my_map(*args, &block)
+  def my_map(proc = nil)
     return enum_for(:my_each) unless block_given?
 
     array = *self
     new_array = []
-    array = args if args.size.positive?
-    array.my_each { |item| new_array.push(block ? block.call(item) : yield(item)) }
+    array.my_each { |item| new_array.push(proc ? proc.call(item) : yield(item)) }
     new_array
   end
 
