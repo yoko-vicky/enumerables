@@ -9,15 +9,6 @@ describe Enumerable do
   let(:range) { (1..5) }
   let(:hash) { { 'a': 2, 'b': 5, 'c': 7, 'd': 8 } }
   let(:str) { %(pine) }
-  let(:block_for_num) { proc { |i| i * 2 } }
-  let(:block_for_str) { proc { |item| item } }
-  let(:block_for_hash) { proc { |key, value| "#{key} is #{value}" } }
-  let(:bk_for_each_idx) { proc { |item, index| "#{index}: #{item}" } }
-  let(:bk_condit_num) { proc { |i| i.even? } }
-  let(:bk_condit_str) { proc { |item| item.is_a?(String) } }
-  let(:bk_condit_hash) { proc { |_key, value| value < 3 } }
-  let(:block_inject_num) { proc { |accum, i| accum * i } }
-  let(:block_inject_str) { proc { |accum, word| accum.size > word.size ? accum : word } }
 
   describe '#my_each' do
     it 'returns the same result as each method to num_array' do
