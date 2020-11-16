@@ -5,10 +5,10 @@ require '../enumerable.rb'
 describe Enumerable do
   let(:num_array) { [1, 2, 3, 5, 7, 8] }
   let(:empty_array) { [] }
-  let(:str_array) { %w[c h o c o m i n t] }
-  let(:range) { (1..10) }
+  let(:str_array) { %w[m i n t] }
+  let(:range) { (1..5) }
   let(:hash) { { 'a': 2, 'b': 5, 'c': 7, 'd': 8 } }
-  let(:str) { %(pineapple) }
+  let(:str) { %(pine) }
   let(:block_for_num) { proc { |i| i * 2 } }
   let(:block_for_str) { proc { |item| item } }
   let(:block_for_hash) { proc { |key, value| "#{key} is #{value}" } }
@@ -21,19 +21,27 @@ describe Enumerable do
 
   describe '#my_each' do
     it 'returns the same result as each method to num_array' do
-      expect(num_array.my_each(&block_for_num)).to eql(num_array.each(&block_for_num))
+      test_array = []
+      num_array.my_each { |i| test_array << i * 2 }
+      expect(test_array).to eql([2, 4, 6, 10, 14, 16])
     end
 
     it 'returns the same result as each method to str_array' do
-      expect(str_array.my_each(&block_for_str)).to eql(str_array.each(&block_for_str))
+      test_array = []
+      str_array.my_each { |item| test_array << item }
+      expect(test_array).to eql(%w[m i n t])
     end
 
     it 'returns the same result as each method to range' do
-      expect(range.my_each(&block_for_num)).to eql(range.each(&block_for_num))
+      test_array = []
+      range.my_each { |i| test_array << i * 2 }
+      expect(test_array).to eql([2, 4, 6, 8, 10])
     end
 
     it 'returns the same result as each method to hash' do
-      expect(hash.my_each(&block_for_hash)).to eql(hash.each(&block_for_hash))
+      test_array = []
+      hash.my_each { |key, value| test_array << "#{key}: #{value}" }
+      expect(test_array).to eql(['a: 2', 'b: 5', 'c: 7', 'd: 8'])
     end
 
     it 'returns the same result as each method to string without block' do
@@ -47,19 +55,27 @@ describe Enumerable do
 
   describe '#my_each_with_index' do
     it 'returns the same result as each_with_index method to num_array' do
-      expect(num_array.my_each_with_index(&bk_for_each_idx)).to eql(num_array.each_with_index(&bk_for_each_idx))
+      test_array = []
+      num_array.my_each_with_index { |item, index| test_array << "#{index}: #{item}" }
+      expect(test_array).to eql(['0: 1', '1: 2', '2: 3', '3: 5', '4: 7', '5: 8'])
     end
 
     it 'returns the same result as each_with_index method to str_array' do
-      expect(str_array.my_each_with_index(&bk_for_each_idx)).to eql(str_array.each_with_index(&bk_for_each_idx))
+      test_array = []
+      str_array.my_each_with_index { |item, index| test_array << "#{index}: #{item}" }
+      expect(test_array).to eql(['0: m', '1: i', '2: n', '3: t'])
     end
 
     it 'returns the same result as each_with_index method to range' do
-      expect(range.my_each_with_index(&bk_for_each_idx)).to eql(range.each_with_index(&bk_for_each_idx))
+      test_array = []
+      range.my_each_with_index { |item, index| test_array << "#{index}: #{item}" }
+      expect(test_array).to eql(['0: 1', '1: 2', '2: 3', '3: 4', '4: 5'])
     end
 
     it 'returns the same result as each_with_index method to hash' do
-      expect(hash.my_each_with_index(&bk_for_each_idx)).to eql(hash.each_with_index(&bk_for_each_idx))
+      test_array = []
+      hash.my_each_with_index { |item, index| test_array << "#{index}: #{item}" }
+      expect(test_array).to eql(['0: [:a, 2]', '1: [:b, 5]', '2: [:c, 7]', '3: [:d, 8]'])
     end
 
     it 'returns the same result as each_with_index method to string without block' do
@@ -73,19 +89,27 @@ describe Enumerable do
 
   describe '#my_select' do
     it 'returns the same result as select method to num_array' do
-      expect(num_array.my_select(&bk_condit_num)).to eql(num_array.select(&bk_condit_num))
+      test_array = []
+      num_array.my_select { |i| test_array << i.even? }
+      expect(test_array).to eql([false, true, false, false, false, true])
     end
 
     it 'returns the same result as select method to str_array' do
-      expect(str_array.my_select(&bk_condit_str)).to eql(str_array.select(&bk_condit_str))
+      test_array = []
+      str_array.my_select { |item| test_array << item }
+      expect(test_array).to eql(%w[m i n t])
     end
 
     it 'returns the same result as select method to range' do
-      expect(range.my_select(&bk_condit_num)).to eql(range.select(&bk_condit_num))
+      test_array = []
+      range.my_select { |i| test_array << i.even? }
+      expect(test_array).to eql([false, true, false, true, false])
     end
 
     it 'returns the same result as select method to hash' do
-      expect(hash.my_select(&bk_condit_hash)).to eql(hash.select(&bk_condit_hash))
+      test_array = []
+      hash.my_select { |_key, value| test_array << (value < 3) }
+      expect(test_array).to eql([true, false, false, false])
     end
 
     it 'returns the same result as select method to string without block' do
@@ -99,19 +123,23 @@ describe Enumerable do
 
   describe '#my_all?' do
     it 'returns the same result as all? method to num_array' do
-      expect(num_array.my_all?(&bk_condit_num)).to eql(num_array.all?(&bk_condit_num))
+      result = num_array.my_all?(&:even?)
+      expect(result).to eql(false)
     end
 
     it 'returns the same result as all? method to str_array' do
-      expect(str_array.my_all?(&bk_condit_str)).to eql(str_array.all?(&bk_condit_str))
+      result = str_array.my_all? { |item| item.is_a?(String) }
+      expect(result).to eql(true)
     end
 
     it 'returns the same result as all? method to range' do
-      expect(range.my_all?(&bk_condit_num)).to eql(range.all?(&bk_condit_num))
+      result = range.my_all?(&:even?)
+      expect(result).to eql(false)
     end
 
     it 'returns the same result as all? method to hash' do
-      expect(hash.my_all?(&bk_condit_hash)).to eql(hash.all?(&bk_condit_hash))
+      result = hash.my_all? { |_key, value| value < 3 }
+      expect(result).to eql(false)
     end
 
     it 'returns the same result as all? method to string without block' do
@@ -125,19 +153,23 @@ describe Enumerable do
 
   describe '#my_any?' do
     it 'returns the same result as any? method to num_array' do
-      expect(num_array.my_any?(&bk_condit_num)).to eql(num_array.any?(&bk_condit_num))
+      result = num_array.my_any?(&:even?)
+      expect(result).to eql(true)
     end
 
     it 'returns the same result as any? method to str_array' do
-      expect(str_array.my_any?(&bk_condit_str)).to eql(str_array.any?(&bk_condit_str))
+      result = str_array.my_any? { |item| item.is_a?(String) }
+      expect(result).to eql(true)
     end
 
     it 'returns the same result as any? method to range' do
-      expect(range.my_any?(&bk_condit_num)).to eql(range.any?(&bk_condit_num))
+      result = range.my_any?(&:even?)
+      expect(result).to eql(true)
     end
 
     it 'returns the same result as any? method to hash' do
-      expect(hash.my_any?(&bk_condit_hash)).to eql(hash.any?(&bk_condit_hash))
+      result = hash.my_any? { |_key, value| value < 3 }
+      expect(result).to eql(true)
     end
 
     it 'returns the same result as any? method to string without block' do
@@ -151,19 +183,23 @@ describe Enumerable do
 
   describe '#my_none?' do
     it 'returns the same result as none? method to num_array' do
-      expect(num_array.my_none?(&bk_condit_num)).to eql(num_array.none?(&bk_condit_num))
+      result = num_array.my_none?(&:even?)
+      expect(result).to eql(false)
     end
 
     it 'returns the same result as none? method to str_array' do
-      expect(str_array.my_none?(&bk_condit_str)).to eql(str_array.none?(&bk_condit_str))
+      result = str_array.my_none? { |item| item.is_a?(String) }
+      expect(result).to eql(false)
     end
 
     it 'returns the same result as none? method to range' do
-      expect(range.my_none?(&bk_condit_num)).to eql(range.none?(&bk_condit_num))
+      result = range.my_none?(&:even?)
+      expect(result).to eql(false)
     end
 
     it 'returns the same result as none? method to hash' do
-      expect(hash.my_none?(&bk_condit_hash)).to eql(hash.none?(&bk_condit_hash))
+      result = hash.my_none? { |_key, value| value < 3 }
+      expect(result).to eql(false)
     end
 
     it 'returns the same result as none? method to string without block' do
@@ -177,65 +213,80 @@ describe Enumerable do
 
   describe '#my_count' do
     it 'returns the same result as count method to num_array without block' do
-      expect(num_array.my_count).to eql(num_array.count)
+      result = num_array.my_count
+      expect(result).to eql(6)
     end
 
     it 'returns the same result as count method to str_array without block' do
-      expect(str_array.my_count).to eql(str_array.count)
+      result = str_array.my_count
+      expect(result).to eql(4)
     end
 
     it 'returns the same result as count method to range without block' do
-      expect(range.my_count).to eql(range.count)
+      result = range.my_count
+      expect(result).to eql(5)
     end
 
     it 'returns the same result as count method to hash without block' do
-      expect(hash.my_count).to eql(hash.count)
+      result = hash.my_count
+      expect(result).to eql(4)
     end
 
     it 'returns the same result as count method to num_array with block' do
-      expect(num_array.my_count(&bk_condit_num)).to eql(num_array.count(&bk_condit_num))
+      result = num_array.my_count(&:even?)
+      expect(result).to eql(2)
     end
 
     it 'returns the same result as count method to str_array with block' do
-      expect(str_array.my_count(&bk_condit_str)).to eql(str_array.count(&bk_condit_str))
+      result = str_array.my_count { |item| item.is_a?(String) }
+      expect(result).to eql(4)
     end
 
     it 'returns the same result as count method to range with block' do
-      expect(range.my_count(&bk_condit_num)).to eql(range.count(&bk_condit_num))
+      result = range.my_count(&:even?)
+      expect(result).to eql(2)
     end
 
     it 'returns the same result as count method to hash with block' do
-      expect(hash.my_count(&bk_condit_hash)).to eql(hash.count(&bk_condit_hash))
+      result = hash.my_count { |_key, value| value < 3 }
+      expect(result).to eql(1)
     end
 
     it 'returns the same result as count method to num_array with item' do
-      expect(num_array.my_count(3)).to eql(num_array.count(3))
+      result = num_array.my_count(3)
+      expect(result).to eql(1)
     end
 
     it 'returns the same result as count method to str_array with item' do
-      expect(str_array.my_count('a')).to eql(str_array.count('a'))
+      result = str_array.my_count('m')
+      expect(result).to eql(1)
     end
 
     it 'returns the same result as count method to range with item' do
-      expect(range.my_count(3)).to eql(range.count(3))
+      result = range.my_count(3)
+      expect(result).to eql(1)
     end
   end
 
   describe '#my_map' do
     it 'returns the same result as map method to num_array' do
-      expect(num_array.my_map(&bk_condit_num)).to eql(num_array.map(&bk_condit_num))
+      result = num_array.my_map { |i| i * 2 }
+      expect(result).to eql [2, 4, 6, 10, 14, 16]
     end
 
     it 'returns the same result as map method to str_array' do
-      expect(str_array.my_map(&bk_condit_str)).to eql(str_array.map(&bk_condit_str))
+      result = str_array.my_map { |item| item }
+      expect(result).to eql(%w[m i n t])
     end
 
     it 'returns the same result as map method to hash' do
-      expect(hash.my_map(&bk_condit_hash)).to eql(hash.map(&bk_condit_hash))
+      result = hash.my_map { |key, value| "#{key} is #{value}" }
+      expect(result).to eql(['a is 2', 'b is 5', 'c is 7', 'd is 8'])
     end
 
     it 'returns the same result as map method to range' do
-      expect(range.my_map(&bk_condit_num)).to eql(range.map(&bk_condit_num))
+      result = range.my_map { |i| i * 2 }
+      expect(result).to eql [2, 4, 6, 8, 10]
     end
 
     it 'returns the same result as map method to num_array without block' do
@@ -247,29 +298,33 @@ describe Enumerable do
     end
   end
 
+  let(:block_inject_num) { proc { |accum, i| accum * i } }
+  let(:block_inject_str) { proc { |accum, word| accum.size > word.size ? accum : word } }
+
   describe '#my_inject' do
     it 'returns the same result as inject method to range with (initial, symbol)' do
-      expect(range.my_inject(3, :*)).to eql(range.inject(3, :*))
+      result = range.my_inject(3, :*)
+      expect(result).to eql(360)
     end
 
     it 'returns the same result as inject method to range with (symbol)' do
-      expect(range.my_inject(:*)).to eql(range.inject(:*))
+      result = range.my_inject(:*)
+      expect(result).to eql(120)
     end
 
     it 'returns the same result as inject method to range with (initial) with block' do
-      expect(range.my_inject(5, &block_inject_num)).to eql(range.inject(5, &block_inject_num))
+      result = range.my_inject(5) { |accum, i| accum * i }
+      expect(result).to eql(600)
     end
 
     it 'returns the same result as inject method to range with block' do
-      expect(range.my_inject(&block_inject_num)).to eql(range.inject(&block_inject_num))
+      result = range.my_inject { |accum, i| accum * i }
+      expect(result).to eql(120)
     end
 
     it 'returns the same result as inject method to str_array with block' do
-      expect(str_array.my_inject(&block_inject_str)).to eql(str_array.inject(&block_inject_str))
-    end
-
-    it 'returns the same result as inject method to str_array with block' do
-      expect(str_array.my_inject(&block_inject_str)).to eql(str_array.inject(&block_inject_str))
+      result = str_array.my_inject { |accum, word| accum.size > word.size ? accum : word }
+      expect(result).to eql('t')
     end
 
     it 'returns the same result as inject method to num_array without block and item' do
