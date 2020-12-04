@@ -19,10 +19,15 @@ module Enumerable
   def my_select
     return enum_for(:my_each) unless block_given?
 
-    array = *self
-    new_array = []
-    array.my_each { |item| new_array.push(item) if yield(item) }
-    new_array
+    if is_a?(Hash)
+      result = {}
+      my_each { |key, value| result[key] = value if yield(key, value) }
+    else
+      array = *self
+      result = []
+      array.my_each { |item| result << item if yield(item) }
+    end
+    result
   end
 
   def my_all?(*patt)
