@@ -1,7 +1,5 @@
 # Enumerable Methods
 
-![](https://img.shields.io/badge/Microverse-blueviolet)
-
 ## About the Project
 
 This project is based on the Odin Project of Enumerable methods.
@@ -24,19 +22,21 @@ A list of commonly used resources that I find helpful is listed in the acknowled
 
 ## Table of Contents
 
-- [About the Project](#about-the-project)
-  - [Built With](#built-with)
-- [Live Demo](#live-demo)
-- [Getting Started](#getting-started)
-- [Contributing](#contributing)
-- [Show your support](#show-your-support)
-- [License](#license)
-- [Authors](#authors)
-- [Acknowledgements](#acknowledgements)
+* [About the Project](#about-the-project)
+  * [Built With](#built-with)
+* [Live Demo](#live-demo)
+* [Getting Started](#getting-started)
+* [Authors](#authors)
+* [Contributing](#contributing)
+* [Show your support](#show-your-support)
+* [License](#license)
+* [Acknowledgements](#acknowledgements)
+
 
 ### Built With
 
 - [Ruby](https://www.ruby-lang.org/en/)
+
 
 ## Live Demo
 
@@ -58,24 +58,6 @@ To get a local copy up and running follow these simple example steps.
    `load "enumerables.rb"`
 9. Call methods on the pry and try it.
 
-## Contributing
-
-Contributions, issues, and feature requests are welcome!
-Feel free to check the [issues page](../../issues).
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## Show your support
-
-Give a ⭐️ if you like this project!
-
-## License
-
-This project is [MIT](./LICENCE) licensed.
 
 ## Authors
 
@@ -90,6 +72,29 @@ This project is [MIT](./LICENCE) licensed.
 - GitHub: [@yocosaka](https://github.com/yocosaka)
 - Twitter: [@yocosaka](https://twitter.com/yocosaka)
 - LinkedIn: [Yoko Saka](https://www.linkedin.com/in/yokosaka)
+
+
+## Contributing
+
+Contributions, issues, and feature requests are welcome!
+Feel free to check the [issues page](../../issues).
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+
+## Show your support
+
+Give a ⭐️ if you like this project!
+
+
+## License
+
+This project is [MIT](./LICENCE) licensed.
+
 
 ## Acknowledgements
 
